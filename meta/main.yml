@@ -3,6 +3,11 @@ galaxy_info:
   description: create systemd unit files for Docker containers
   license: 2-clause BSD
   min_ansible_version: 2.2
+  platforms:
+    - name: Ubuntu
+      versions: [all]
+    - name: Debian
+      versions: [all]
   galaxy_tags:
     - docker
     - systemd
