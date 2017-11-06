@@ -1,0 +1,12 @@
+---
+description: '{{ name }} container'
+pull_image: true
+recreate_container: true
+cmd: ''
+service_name: 'container-{{ name }}.service'
+ports: []
+volumes: []
+extra_options: []
+env: []
+link: []
+autostart: true

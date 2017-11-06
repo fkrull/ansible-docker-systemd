@@ -1,0 +1,46 @@
+[Unit]
+Description={{ description }}
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+RestartSec=10
+Restart=always
+
+ExecStartPre=-/usr/bin/docker stop {{ name }}
+{% if recreate_container %}
+ExecStartPre=-/usr/bin/docker rm {{ name }}
+{% endif %}
+{% if pull_image %}
+ExecStartPre=-/usr/bin/docker pull {{ image }}
+{% endif %}
+
+ExecStart=/usr/bin/docker run -t \
+{% if recreate_container %}
+    --rm \
+{% endif %}
+{% for port in ports %}
+    -p {{ port }} \
+{% endfor %}
+{% for volume in volumes %}
+    -v {{ volume }} \
+{% endfor %}
+{% for env_var in env %}
+    -e {{ env_var }} \
+{% endfor %}
+    -e TZ={{ timezone }} \
+{% for linked_container in link %}
+    --link {{ linked_container }} \
+{% endfor %}
+{% for option in extra_options %}
+    {{ option }} \
+{% endfor %}
+    --name "{{ name }}" \
+    "{{ image }}" \
+    "{{ cmd }}"
+
+ExecStop=-/usr/bin/docker stop -t 3 {{ name }}
+
+[Install]
+WantedBy=multi-user.target
