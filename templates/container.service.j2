@@ -29,16 +29,18 @@ ExecStart=/usr/bin/docker run -t \
 {% for env_var in env %}
     -e {{ env_var }} \
 {% endfor %}
+{% if timezone %}
     -e TZ={{ timezone }} \
+{% endif %}
 {% for linked_container in link %}
     --link {{ linked_container }} \
 {% endfor %}
 {% for option in extra_options %}
     {{ option }} \
 {% endfor %}
-    --name "{{ name }}" \
-    "{{ image }}" \
-    "{{ cmd }}"
+    --name={{ name | quote }} \
+    {{ image | quote }} \
+    {{ cmd }}
 
 ExecStop=-/usr/bin/docker stop -t 3 {{ name }}
 

@@ -3,6 +3,7 @@ description: '{{ name }} container'
 pull_image: true
 recreate_container: true
 cmd: ''
+timezone: null
 service_name: 'container-{{ name }}.service'
 ports: []
 volumes: []

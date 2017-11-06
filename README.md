@@ -32,6 +32,8 @@ The target host needs to be running systemd and needs to have Docker installed.
 * `link` *list of strings* - a list of container names to link using the
   `--link` flag to `docker run`.
 * `autostart` *boolean* - if true, the created service is enabled and started.
+* `timezone` *string* - if set, this value is passed to the container in the
+  `TZ` environment variable.
 
 ## Example
 This playbook snippet creates a service file to run Portainer:
